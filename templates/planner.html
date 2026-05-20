@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyRoute — Smart Route Planner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <header class="brand">
+            <span class="brand-icon">⟁</span>
+            <span class="brand-name">EasyRoute</span>
+        </header>
+
+        <!-- ROUTE NAME -->
+        <section class="panel">
+            <label class="field-label">Route Name</label>
+            <input id="routeName" class="field-input" placeholder="e.g. Monday Deliveries" value="My Route">
+        </section>
+
+        <!-- START / END -->
+        <section class="panel">
+            <label class="field-label">Start Point</label>
+            <div class="input-row">
+                <input id="start" class="field-input" placeholder="Starting address">
+                <button class="icon-btn" onclick="setEndpoint('start')" title="Set start">⊕</button>
+            </div>
+            <label class="field-label" style="margin-top:10px">End Point</label>
+            <div class="input-row">
+                <input id="end" class="field-input" placeholder="Ending address (optional)">
+                <button class="icon-btn" onclick="setEndpoint('end')" title="Set end">⊕</button>
+            </div>
+        </section>
+
+        <!-- ADD STOPS -->
+        <section class="panel">
+            <label class="field-label">Add Stops</label>
+            <div class="input-row">
+                <input id="newStop" class="field-input" placeholder="Address or place name"
+                       onkeydown="if(event.key==='Enter') addStop()">
+                <button class="icon-btn add-btn" onclick="addStop()" title="Add stop">+</button>
+            </div>
+        </section>
+
+        <!-- STOP LIST -->
+        <section class="panel stop-panel">
+            <div class="stop-panel-header">
+                <label class="field-label">Stops <span id="stopCount" class="badge">0</span></label>
+                <button class="text-btn danger" onclick="clearAll()">Clear all</button>
+            </div>
+            <div id="stopList" class="stop-list">
+                <div class="empty-state">No stops added yet</div>
+            </div>
+        </section>
+
+        <!-- ACTIONS -->
+        <section class="actions">
+            <button class="btn-primary" onclick="optimizeRoute()">
+                <span class="btn-icon">⟳</span> Optimize Route
+            </button>
+            <div class="save-row">
+                <button class="btn-secondary" onclick="saveRoute()">
+                    <span class="btn-icon">↓</span> Save Route
+                </button>
+                <button class="btn-secondary" onclick="showSavedRoutes()">
+                    <span class="btn-icon">☰</span> Saved
+                </button>
+            </div>
+        </section>
+
+        <!-- LOADING -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <span id="loadingMsg">Optimizing…</span>
+        </div>
+
+        <!-- RESULTS -->
+        <section id="result" class="result-panel"></section>
+
+    </aside>
+
+    <!-- MAP -->
+    <main id="map"></main>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="/static/script.js"></script>
+</body>
+</html>
